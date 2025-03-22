@@ -30,7 +30,24 @@ header('Content-Type: image/png');
 echo $renderer->render($code);
 
 ```
+or use in Blade :
 
+```php
+
+use Metzli\Encoder\Encoder;
+use Metzli\Renderer\PngRenderer;
+
+// ... some awesome code here ...
+
+$code = Encoder::encode('Hello World!');
+$renderer = new PngRenderer(true);
+return view('balde_view',compact('renderer'));
+
+
+// ... Blade with data parameter
+<img src="{!! $renderer !!}" />
+
+```
 ## Contributing
 
 If you want to get your hands dirty, great! Here's a couple of steps/guidelines:
