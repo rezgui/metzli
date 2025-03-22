@@ -22,13 +22,17 @@ use Metzli\Encoder\AztecCode;
 
 class PngRenderer implements RendererInterface
 {
+
+    private $base64;
     private $factor;
     private $fgColor;
     private $bgColor;
 
-    public function __construct($factor = 4, $fgColor = array(0, 0, 0), $bgColor = array(255, 255, 255))
+
+    public function __construct($base64 = false, $factor = 4, $fgColor = [0, 0, 0], $bgColor = [255, 255, 255])
     {
-        $this->factor = $factor;
+        $this->base64  = $base64;
+        $this->factor  = $factor;
         $this->fgColor = $fgColor;
         $this->bgColor = $bgColor;
     }
@@ -67,9 +71,12 @@ class PngRenderer implements RendererInterface
 
         ob_start();
         imagepng($im);
-        $result = ob_get_clean();
+        $image = ob_get_clean();
         imagedestroy($im);
+
+        $result = $this->base64 ?  "data:image/png;base64," . base64_encode($image) : $image;
 
         return $result;
     }
 }
+
